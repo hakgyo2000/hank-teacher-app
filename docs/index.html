@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hank DP 다운로드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans KR',sans-serif;background:#0f0f0f;color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px}
+.card{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:24px;padding:52px 48px;max-width:560px;width:100%;text-align:center}
+.icon{font-size:56px;margin-bottom:16px}
+.title{font-size:32px;font-weight:900;margin-bottom:8px}
+.sub{font-size:14px;color:#6b7280;margin-bottom:8px}
+.version{display:inline-block;background:#1e3a5f;color:#93c5fd;font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;margin-bottom:36px;letter-spacing:.04em}
+.divider{border:none;border-top:1px solid #222;margin:32px 0}
+.section-title{font-size:13px;font-weight:700;color:#6b7280;letter-spacing:.08em;margin-bottom:20px}
+.btn-wrap{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.btn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:20px 16px;border-radius:14px;border:2px solid #2a2a2a;background:#111;color:#fff;text-decoration:none;transition:all .2s;cursor:pointer}
+.btn:hover{border-color:#3b82f6;background:#1e3a5f;transform:translateY(-2px)}
+.btn-emoji{font-size:28px}
+.btn-name{font-size:14px;font-weight:700}
+.btn-desc{font-size:11px;color:#6b7280;line-height:1.5;text-align:center}
+.btn-size{font-size:11px;color:#4b5563;margin-top:2px}
+.help-box{background:#111;border:1px solid #222;border-radius:12px;padding:16px 18px;margin-top:16px;text-align:left}
+.help-title{font-size:12px;font-weight:700;color:#9ca3af;margin-bottom:10px}
+.help-row{display:flex;gap:10px;font-size:12.5px;color:#6b7280;margin-bottom:6px;align-items:flex-start;line-height:1.5}
+.help-row:last-child{margin-bottom:0}
+.help-tag{background:#1e3a5f;color:#93c5fd;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0;margin-top:1px}
+.install-box{background:#111;border:1px solid #222;border-radius:12px;padding:16px 18px;margin-top:12px;text-align:left}
+.install-step{display:flex;gap:10px;font-size:12.5px;color:#6b7280;margin-bottom:8px;align-items:flex-start;line-height:1.5}
+.install-step:last-child{margin-bottom:0}
+.step-num{width:20px;height:20px;border-radius:50%;background:#222;color:#9ca3af;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.loading{color:#4b5563;font-size:14px;padding:20px 0}
+.footer{margin-top:32px;font-size:11px;color:#374151;text-align:center}
+.footer strong{color:#4b5563}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="icon">🎓</div>
+  <div class="title">Hank DP</div>
+  <div class="sub">IB Korean A · Learning Platform</div>
+  <div class="version" id="ver">버전 확인 중...</div>
+
+  <div class="section-title">맥북 종류를 선택해서 다운로드하세요</div>
+  <div class="btn-wrap" id="btns">
+    <div class="loading">다운로드 링크 불러오는 중...</div>
+  </div>
+
+  <div class="help-box">
+    <div class="help-title">🔍 내 맥북 종류 확인하는 법</div>
+    <div class="help-row">
+      <span class="help-tag">M1/M2/M3</span>
+      <span>화면 왼쪽 위 애플 메뉴() → 이 Mac에 관하여 → 칩 항목에 <strong style="color:#e5e7eb">Apple M</strong> 표시</span>
+    </div>
+    <div class="help-row">
+      <span class="help-tag">Intel</span>
+      <span>화면 왼쪽 위 애플 메뉴() → 이 Mac에 관하여 → 프로세서 항목에 <strong style="color:#e5e7eb">Intel</strong> 표시</span>
+    </div>
+  </div>
+
+  <div class="install-box">
+    <div class="help-title">⚙️ 설치 방법</div>
+    <div class="install-step"><span class="step-num">1</span><span>다운로드된 .zip 파일 더블클릭 → 앱 파일 추출</span></div>
+    <div class="install-step"><span class="step-num">2</span><span>앱 아이콘을 <strong style="color:#e5e7eb">우클릭</strong> → <strong style="color:#e5e7eb">열기</strong> 클릭 (처음 한 번만)</span></div>
+    <div class="install-step"><span class="step-num">3</span><span>"개발자를 확인할 수 없습니다" 경고창에서 <strong style="color:#e5e7eb">열기</strong> 클릭</span></div>
+    <div class="install-step"><span class="step-num">4</span><span>아이디와 비밀번호로 로그인</span></div>
+  </div>
+</div>
+
+<div class="footer"><strong>Built by Hank Teacher</strong> · IB Korean A Language &amp; Literature</div>
+
+<script>
+async function loadRelease(){
+  try {
+    const res  = await fetch('https://api.github.com/repos/hakgyo2000/hank-teacher-app/releases/latest');
+    const data = await res.json();
+    const ver  = data.tag_name;
+    document.getElementById('ver').textContent = ver;
+
+    const arm64 = data.assets.find(a => a.name.includes('arm64') && a.name.endsWith('.zip'));
+    const x64   = data.assets.find(a => !a.name.includes('arm64') && !a.name.includes('blockmap') && a.name.endsWith('.zip'));
+
+    const mb = b => (b/1024/1024).toFixed(0) + ' MB';
+
+    document.getElementById('btns').innerHTML = `
+      <a class="btn" href="${arm64 ? arm64.browser_download_url : '#'}" download>
+        <span class="btn-emoji">💻</span>
+        <span class="btn-name">M1 / M2 / M3</span>
+        <span class="btn-desc">2020년 이후 맥북<br>Apple Silicon</span>
+        <span class="btn-size">${arm64 ? mb(arm64.size) : '-'}</span>
+      </a>
+      <a class="btn" href="${x64 ? x64.browser_download_url : '#'}" download>
+        <span class="btn-emoji">🖥️</span>
+        <span class="btn-name">Intel</span>
+        <span class="btn-desc">2019년 이전 맥북<br>Intel 프로세서</span>
+        <span class="btn-size">${x64 ? mb(x64.size) : '-'}</span>
+      </a>`;
+  } catch(e) {
+    document.getElementById('btns').innerHTML =
+      '<div class="loading" style="grid-column:1/-1">링크 불러오기 실패. 잠시 후 새로고침 해주세요.</div>';
+  }
+}
+loadRelease();
+</script>
+</body>
+</html>
